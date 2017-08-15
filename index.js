@@ -37,17 +37,17 @@ app.get('/books', (req, res, next)=>{
 })
 
 app.post('/books', (req, res)=>{
-
-let bookName = req.body.bookName.trim()
-let authorName = req.body.authorName.trim()
-// validate data!
-let book = {id: uuidv1(), 
-  bookName: bookName,
-  authorName: authorName
-}
-books.insert(book)
-// console.log(book)
-res.status(201).send(book)
+  let bookName = req.body.bookName.trim()
+  let authorName = req.body.authorName.trim()
+  // validate data!
+  let book = {id: uuidv1(), 
+    bookName: bookName,
+    authorName: authorName
+  }
+  req.books.insert(book, (error, result)=>{
+    if (error) return next(error)
+    res.status(201).send(result)
+  })
 })
 
 app.put('/books/:id', (req, res)=>{
