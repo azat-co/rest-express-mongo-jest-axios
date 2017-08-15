@@ -32,24 +32,24 @@ describe('books resource', ()=>{
       })
       .catch(error=>console.error(error))
   })
-  // it('create a new entity', (done)=>{
-  //   axios({url: `${URL}/books`, 
-  //   method: 'post', 
-  //   adapter: require('axios/lib/adapters/http'),
-  //   data: {
-  //     authorName: 'Douglas Crockford',
-  //     bookName: 'JavaScript: The Good Parts'
-  //   }
-  // })
-  //   .then((response)=>{
-  //     // console.log(response)
-  //     expect(response.status).toEqual(201)
-  //     expect(response.data.id).toBeTruthy()
-  //     id = response.data.id
-  //     done()
-  //   })
-  //   .catch(error=>console.error(error))
-  // }) 
+  it('create a new entity', (done)=>{
+    axios({url: `${URL}/books`, 
+    method: 'post', 
+    adapter: require('axios/lib/adapters/http'),
+    data: {
+      authorName: 'Douglas Crockford',
+      bookName: 'JavaScript: The Good Parts'
+    }
+  })
+    .then((response)=>{
+      // console.log(response)
+      expect(response.status).toEqual(201)
+      expect(response.data.ops[0]._id).toBeTruthy()
+      id = response.data._id
+      done()
+    })
+    .catch(error=>console.error(error))
+  }) 
   // it('update an entity', (done)=>{
   //   axios({url: `${URL}/books/${id}`, 
   //   method: 'put', 
@@ -81,5 +81,6 @@ describe('books resource', ()=>{
   // })    
 })
 afterAll((done)=>{
+  console.log('after all')
   server.close()
 })
