@@ -15,7 +15,7 @@ app.use((req, res, next)=>{
         next(error)
         return
       } 
-      req.books = db.collection('books')
+      req.db = db
       next()
     })
   } else {
@@ -29,8 +29,9 @@ app.get('/', (req, res)=>{
   res.status(200).send('hello')
 })
 
-app.get('/books', (req, res, next)=>{
-  req.books.find({}).toArray((error, booksResults)=>{
+app.get('/:collectionName', (req, res, next)=>{
+  req.db.collection(req.params.collectionName)
+    .find({}).toArray((error, booksResults)=>{
     if (error) return next(error)
     res.status(200).send(booksResults)
   })
@@ -51,29 +52,29 @@ app.post('/books', (req, res)=>{
 })
 
 app.put('/books/:id', (req, res)=>{
-let bookName = req.body.bookName.trim()
-let authorName = req.body.authorName.trim()
-// validate data!
-let book = {
-  id: req.params.id, 
-  bookName: bookName,
-  authorName: authorName
-}
-let index = books.findIndex((value)=>{
-  if (value.id == book.id) return true
-})
-books[index] = book
-// console.log(book)
-res.status(200).send(book)
+  let bookName = req.body.bookName.trim()
+  let authorName = req.body.authorName.trim()
+  // validate data!
+  let book = {
+    bookName: bookName,
+    authorName: authorName
+  }
+  req.books.update({
+    _id: mongodb.ObjectID(req.params.id)
+  }, 
+    {$set: book}, 
+    (error, result)=>{
+      if (error) return next(error)
+      res.status(200).send(result)
+  })
 })
 
 app.delete('/books/:id', (req, res)=>{
-let index = books.findIndex((value)=>{
-  if (value.id == req.params.id) return true
-})
-books.splice(index, 1)
-// console.log(book)
-res.status(204).send()
+  req.books.remove({_id: mongodb.ObjectID(req.params.id)}, 
+  (error, result)=>{
+    if (error) return next(error)
+    res.status(204).send()
+  })
 })
 app.use(errorHandler())
 if (require.main === module) {
