@@ -32,53 +32,53 @@ describe('books resource', ()=>{
       })
       .catch(error=>console.error(error))
   })
-  it('create a new entity', (done)=>{
-    axios({url: `${URL}/books`, 
-    method: 'post', 
-    adapter: require('axios/lib/adapters/http'),
-    data: {
-      authorName: 'Douglas Crockford',
-      bookName: 'JavaScript: The Good Parts'
-    }
-  })
-    .then((response)=>{
-      // console.log(response)
-      expect(response.status).toEqual(201)
-      expect(response.data.id).toBeTruthy()
-      id = response.data.id
-      done()
-    })
-    .catch(error=>console.error(error))
-  }) 
-  it('update an entity', (done)=>{
-    axios({url: `${URL}/books/${id}`, 
-    method: 'put', 
-    adapter: require('axios/lib/adapters/http'),
-    data: {
-      authorName: 'Azat Mardan',
-      bookName: 'React Quickly'
-    }
-  })
-    .then((response)=>{
-      // console.log(response)
-      expect(response.status).toEqual(200)
-      expect(response.data.authorName).toEqual('Azat Mardan')
-      done()
-    })
-    .catch(error=>console.error(error))
-  })  
-  it('delete an entity', (done)=>{
-    axios({url: `${URL}/books/${id}`, 
-    method: 'delete', 
-    adapter: require('axios/lib/adapters/http'),
-  })
-    .then((response)=>{
-      // console.log(response)
-      expect(response.status).toEqual(204)
-      done()
-    })
-    .catch(error=>console.error(error))
-  })    
+  // it('create a new entity', (done)=>{
+  //   axios({url: `${URL}/books`, 
+  //   method: 'post', 
+  //   adapter: require('axios/lib/adapters/http'),
+  //   data: {
+  //     authorName: 'Douglas Crockford',
+  //     bookName: 'JavaScript: The Good Parts'
+  //   }
+  // })
+  //   .then((response)=>{
+  //     // console.log(response)
+  //     expect(response.status).toEqual(201)
+  //     expect(response.data.id).toBeTruthy()
+  //     id = response.data.id
+  //     done()
+  //   })
+  //   .catch(error=>console.error(error))
+  // }) 
+  // it('update an entity', (done)=>{
+  //   axios({url: `${URL}/books/${id}`, 
+  //   method: 'put', 
+  //   adapter: require('axios/lib/adapters/http'),
+  //   data: {
+  //     authorName: 'Azat Mardan',
+  //     bookName: 'React Quickly'
+  //   }
+  // })
+  //   .then((response)=>{
+  //     // console.log(response)
+  //     expect(response.status).toEqual(200)
+  //     expect(response.data.authorName).toEqual('Azat Mardan')
+  //     done()
+  //   })
+  //   .catch(error=>console.error(error))
+  // })  
+  // it('delete an entity', (done)=>{
+  //   axios({url: `${URL}/books/${id}`, 
+  //   method: 'delete', 
+  //   adapter: require('axios/lib/adapters/http'),
+  // })
+  //   .then((response)=>{
+  //     // console.log(response)
+  //     expect(response.status).toEqual(204)
+  //     done()
+  //   })
+  //   .catch(error=>console.error(error))
+  // })    
 })
 afterAll((done)=>{
   server.close()
